@@ -73,7 +73,6 @@ namespace EventManager
 		{
 			DateTime userDateTime;
 
-			Console.Clear();
 			while (true)
 			{
 				Console.WriteLine("Unesite datum i vrijeme početka\n\t(unijeti u formatu: dan mjesec godina sati:minute)");
@@ -99,7 +98,6 @@ namespace EventManager
 		{
 			DateTime userDateTime;
 
-			Console.Clear();
 			while (true)
 			{
 				Console.WriteLine("Unesite datum i vrijeme kraja\n\t(unijeti u formatu: dan mjesec godina sati:minute)");
@@ -107,7 +105,7 @@ namespace EventManager
 
 				if (DateTime.TryParse(Console.ReadLine(), out userDateTime))
 				{
-					if (EndTime > userDateTime) {
+					if (DateTime.Compare(StartTime, userDateTime) > 0) {
 						Console.WriteLine("Vrijeme kraja ne može biti prije vremena početka!");
 						continue;
 					}

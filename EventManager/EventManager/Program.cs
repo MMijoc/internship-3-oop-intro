@@ -69,10 +69,10 @@ namespace EventManager
 						AddEvent(EventAndAttendants);
 						break;
 					case 2:
-						
+						DeleteEvent(EventAndAttendants);
 						break;
 					case 3:
-
+						UpdateEvent(EventAndAttendants);
 						break;
 					case 4:
 						AddPerson(EventAndAttendants);
@@ -111,12 +111,93 @@ namespace EventManager
 			newEvent.InputEventType();
 			newEvent.InputStarTime();
 			newEvent.InputEndTime();
-			newEvent.EventId = EventAndAttendants.Count + 1;
+			newEvent.EventId = (EventAndAttendants.Count + 1) * 10;
 
 			var attendantsList = new List<Person>();
 			EventAndAttendants.Add(newEvent, attendantsList);
 
 			return;
+		}
+
+		static void DeleteEvent(Dictionary<Event, List<Person>> EventAndAttendants)
+		{
+			PrintEvents(EventAndAttendants);
+			var eventId = InputNumber("Unesite ID eventa kojega želite obrisati: ");
+
+			foreach (var item in EventAndAttendants)
+			{
+				
+				if (item.Key.EventId == eventId) {
+					if(ConfirmAction())
+						EventAndAttendants.Remove(item.Key);
+					return;
+				}
+
+			}
+
+			Console.WriteLine("Ne postoji event s unesneim Id-om!");
+			return;
+		}
+
+		static void UpdateEvent(Dictionary<Event, List<Person>> EventAndAttendants)
+		{
+			PrintEvents(EventAndAttendants);
+			var eventId = InputNumber("Unesite ID eventa na kojega želite urediti: ");
+
+			foreach (var item in EventAndAttendants)
+			{
+				if (item.Key.EventId == eventId)
+				{
+					Console.Clear();
+					while (true)
+					{
+						PrintEventDetails(EventAndAttendants, eventId);
+						Console.WriteLine("1 - Uredi ime eventa\n2 - Uredi Vrstu eventa\n3 - Uredi vrijeme početka\n4 - Uredi vrijeme kraja\n0 - natrag na glavni izbornik");
+						Console.Write("Izbor: ");
+						
+						var input = "";
+
+						var isNumber = int.TryParse(input = Console.ReadLine(), out var select);
+
+						if (!isNumber)
+						{
+							Console.WriteLine("Nepoznata naredba \"{0}\"\nPritnisni bilo koju tipku za nastavak . . .", input);
+							Console.ReadLine();
+							Console.Clear();
+							continue;
+						}
+
+						switch (select)
+						{
+							case 1:
+								var newName = InputString("Unesite novo ime eventa: ");
+								Console.WriteLine("Jese li sigurni da zelite preimenovti event \"{0}\" u \"{1}\"", item.Key.Name, newName);
+								if (ConfirmAction())
+									item.Key.Name = newName;
+								break;
+							case 2:
+								
+								item.Key.InputEventType();
+								break;
+							case 3:
+								item.Key.InputStarTime();
+								break;
+							case 4:
+								item.Key.InputEndTime();
+								break;
+							case 0:
+								return;
+							default:
+								Console.WriteLine("Nepoznata naredba \"{0}\"", input);
+								break;
+						}
+
+						Console.WriteLine("\nPritnisni bilo koju tipku za nastavak . . .");
+						Console.ReadLine();
+						Console.Clear();
+					}
+				}
+			}
 		}
 
 		static void AddPerson(Dictionary<Event, List<Person>> EventAndAttendants)
@@ -221,7 +302,7 @@ namespace EventManager
 				if (item.Key.EventId == eventId)
 				{
 					Console.WriteLine("Lista osoba koji idu na event:");
-					Console.WriteLine("{0, -12} {1, -32} {2, -32} {3, -16}", "Redni broj", "Ime", "Prezim", "Broj mobitela");
+					Console.WriteLine("{0, -12} {1, -32} {2, -32} {3, -16}", "Redni broj", "Ime", "Prezime", "Broj mobitela");
 					var i = 1;
 					foreach (var person in item.Value)
 					{
@@ -251,9 +332,6 @@ namespace EventManager
 
 			return exists;
 		}
-
-
-
 
 		public static bool ConfirmAction()
 		{

@@ -28,7 +28,7 @@ namespace EventManager
 			var name = Console.ReadLine();
 			name = name.Trim();
 
-			Console.Write("\nUnesite prezime: ");
+			Console.Write("Unesite prezime: ");
 			var lastName = Console.ReadLine();
 			lastName = lastName.Trim();
 

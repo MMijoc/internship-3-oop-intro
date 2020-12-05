@@ -17,10 +17,10 @@ namespace EventManager
 			DateTime DT3 = new DateTime(2021, 6, 7); DT3 = DT3.AddHours(17);
 			DateTime DT4 = new DateTime(2020, 12, 5); DT4 =  DT4.AddHours(12);
 
-			var E1 = new Event("DUMP - predavanje", "Lecture", DT1, DT1.AddHours(3), 001);
-			var E2 = new Event("Kava", "Coffee", DT2, DT2.AddHours(3), 002);
-			var E3 = new Event("Koncert Iron Maidena", "Concert", DT3, DT3.AddHours(5), 003);
-			var E4 = new Event("naucit c#", "Study Session", DT4, DT4.AddHours(10), 004);
+			var E1 = new Event("DUMP - predavanje", "Lecture", DT1, DT1.AddHours(3), 10);
+			var E2 = new Event("Kava", "Coffee", DT2, DT2.AddHours(3), 20);
+			var E3 = new Event("Koncert Iron Maidena", "Concert", DT3, DT3.AddHours(5), 30);
+			var E4 = new Event("naucit c#", "Study Session", DT4, DT4.AddHours(10), 40);
 
 			var P1 = new Person("Ante", "Antic", "11111111", "000 000 001");
 			var P2 = new Person("Jure", "Juric", "22222222", "000 000 002");
