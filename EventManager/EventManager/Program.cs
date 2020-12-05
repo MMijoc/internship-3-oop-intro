@@ -78,7 +78,7 @@ namespace EventManager
 						AddPerson(EventAndAttendants);
 						break;
 					case 5:
-
+						RemovePerson(EventAndAttendants);
 						break;
 					case 6:
 						SubmenuSelect(EventAndAttendants);
@@ -220,6 +220,35 @@ namespace EventManager
 			return;
 		}
 
+		static void RemovePerson(Dictionary<Event, List<Person>> EventAndAttendants)
+		{
+			PrintEvents(EventAndAttendants);
+			var eventId = InputNumber("Unesite ID eventa s kojega želite izbaciti osobu: ");
+			Console.Clear();
+			if (PrintEventAttendants(EventAndAttendants, eventId) == false)
+				return;
+			var name = InputString("Unesite ime osobe koju želite izbrisati: ");
+
+			foreach (var item in EventAndAttendants)
+			{
+				if (item.Key.EventId == eventId) {
+					foreach (var person in item.Value)
+					{
+						if (person.FirstName.Equals(name, StringComparison.OrdinalIgnoreCase))
+						{
+							item.Value.Remove(person);
+							return;
+						}
+					}
+				
+				}
+
+			}
+
+			Console.WriteLine("Ne postoji osoba s datim imenom!");
+			return;
+
+		}
 		static void SubmenuSelect(Dictionary<Event, List<Person>> EventAndAttendants)
 		{
 			Console.Clear();
@@ -295,7 +324,7 @@ namespace EventManager
 			return;
 		}
 
-		static void PrintEventAttendants(Dictionary<Event, List<Person>> EventAndAttendants, int eventId)
+		static bool PrintEventAttendants(Dictionary<Event, List<Person>> EventAndAttendants, int eventId)
 		{
 			foreach (var item in EventAndAttendants)
 			{
@@ -309,12 +338,12 @@ namespace EventManager
 						Console.WriteLine("{0, -12} {1, -32} {2, -32} {3, -16}", i, person.FirstName, person.LastName, person.PhoneNumber);
 						i++;
 					}
-					return;
+					return true;
 				}
 			}
 
 			Console.WriteLine("Ne postoji event s ID-om \"{0}\"", eventId);
-			return;
+			return false;
 		}
 
 		static bool EventExists(Dictionary<Event, List<Person>> EventAndAttendants, string eventName)
