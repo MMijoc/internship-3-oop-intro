@@ -14,9 +14,23 @@ namespace EventManager
 	public class Event
 	{
 		public string Name { get; set; }
-		public int Type { get; set; }
+		public string Type { get; set; }
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
+
+		public int EventId { get; set; }
+		public Event()
+		{
+
+		}
+		public Event(string name, string type, DateTime startTime, DateTime endTime, int id)
+		{
+			Name = name;
+			Type = type;
+			StartTime = startTime;
+			EndTime = endTime;
+			EventId = id;
+		}
 
 		public void InputEventType()
 		{
@@ -35,17 +49,17 @@ namespace EventManager
 
 			switch (eventTypeNumber)
 			{
-				case 0:
-					Type = (int)EventType.Coffee;
+				case (int)EventType.Coffee:
+					Type = "Coffee";
 					break;
-				case 1:
-					Type = (int)EventType.Lecture;
+				case (int)EventType.Lecture:
+					Type = "Lecture";
 					break;
-				case 2:
-					Type = (int)EventType.Concert;
+				case (int)EventType.Concert:
+					Type = "Concert";
 					break;
-				case 3:
-					Type = (int)EventType.StudySession;
+				case (int)EventType.StudySession:
+					Type = "StudySession";
 					break;
 				default:
 					Console.WriteLine("Nepravilan unos!");
@@ -111,6 +125,13 @@ namespace EventManager
 
 			EndTime = userDateTime;
 		}
+
+		public void PrintDetails()
+		{
+			Console.Write("\n{0, -40} {1, -16} {2, -32} {3, -32}",Name, Type, StartTime, EndTime);
+		}
+
+
 
 	}
 

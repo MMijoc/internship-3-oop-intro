@@ -11,6 +11,48 @@ namespace EventManager
 		public string PersonalIdentificationNumber { get; set; }
 		public string PhoneNumber { get; set; }
 
+		public Person()
+		{
+
+		}
+		public Person(string name, string lastName, string id, string phoneNumber)
+		{
+			FirstName = name;
+			LastName = lastName;
+			PersonalIdentificationNumber = id;
+			PhoneNumber = phoneNumber;
+		}
+		public void InputPerson()
+		{
+			Console.Write("Unesite ime osobe: ");
+			var name = Console.ReadLine();
+			name = name.Trim();
+
+			Console.Write("\nUnesite prezime: ");
+			var lastName = Console.ReadLine();
+			lastName = lastName.Trim();
+
+			Console.Write("Unesite OIB: ");
+			var id = Console.ReadLine();
+			lastName = id.Trim();
+
+			Console.Write("Unesite broj mobitela: ");
+			var phoneNumber = Console.ReadLine();
+			phoneNumber = phoneNumber.Trim();
+
+
+			FirstName = name;
+			LastName = lastName;
+			PersonalIdentificationNumber = id;
+			PhoneNumber = phoneNumber;
+
+			return;
+		}
+
+		public void PrintDetails()
+		{
+			Console.WriteLine("{0, -32} {1, -32} {2, -16}", FirstName, LastName, PhoneNumber);
+		}
 
 	}
 }
