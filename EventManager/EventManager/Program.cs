@@ -212,6 +212,13 @@ namespace EventManager
 				{
 					var newPerson = new Person();
 					newPerson.InputPerson();
+					foreach (var person in item.Value)
+					{
+						if (person.PersonalIdentificationNumber == newPerson.PersonalIdentificationNumber) {
+							Console.WriteLine("Osoba s datim oibom već postoji!\nUnos je otkazan");
+							return;
+						}
+					}
 					item.Value.Add(newPerson);
 					break;
 				}
@@ -249,6 +256,7 @@ namespace EventManager
 			return;
 
 		}
+
 		static void SubmenuSelect(Dictionary<Event, List<Person>> EventAndAttendants)
 		{
 			Console.Clear();
