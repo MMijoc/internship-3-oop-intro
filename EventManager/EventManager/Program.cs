@@ -22,7 +22,7 @@ namespace EventManager
 			Console.WriteLine("1 - Dodaj event");
 			Console.WriteLine("2 - Brisanje eventa");
 			Console.WriteLine("3 - Uredi event");
-			Console.WriteLine("4 - Dodaj osobu(e) na event");
+			Console.WriteLine("4 - Dodaj osobu na event");
 			Console.WriteLine("5 - Ukloni osobu sa eventa");
 			Console.WriteLine("6 - Ispis detalja eventa");
 			Console.WriteLine("0 - izlaz");
@@ -69,13 +69,13 @@ namespace EventManager
 						AddEvent(EventAndAttendants);
 						break;
 					case 2:
-
+						
 						break;
 					case 3:
 
 						break;
 					case 4:
-
+						AddPerson(EventAndAttendants);
 						break;
 					case 5:
 
@@ -100,17 +100,20 @@ namespace EventManager
 		static void AddEvent(Dictionary<Event, List<Person>> EventAndAttendants)
 		{
 			var newEvent = new Event();
-			Console.Write("Unesite ime novog eventa: ");
-			var name = Console.ReadLine();
-			name = name.Trim();
-			//provjerit je li event s imenom vec postoji
-			newEvent.Name = name;
+			var eventName = InputString("Unesite ime eventa: ");
+			if (EventExists(EventAndAttendants, eventName))
+			{
+				Console.WriteLine("Već postoji event s danim imenom!");
+				return;
+			}
+
+			newEvent.Name = eventName;
 			newEvent.InputEventType();
 			newEvent.InputStarTime();
 			newEvent.InputEndTime();
+			newEvent.EventId = EventAndAttendants.Count + 1;
 
 			var attendantsList = new List<Person>();
-
 			EventAndAttendants.Add(newEvent, attendantsList);
 
 			return;
@@ -118,11 +121,13 @@ namespace EventManager
 
 		static void AddPerson(Dictionary<Event, List<Person>> EventAndAttendants)
 		{
-			var eventName = InputString("Unesite ime eventa na koji želite dodati nove osobe: ");
+			PrintEvents(EventAndAttendants);
+			var eventId = InputNumber("Unesite ID eventa na koji želite dodati novu osobu: ");
+
 
 			foreach (var item in EventAndAttendants)
 			{
-				if (eventName.Equals(item.Key.Name, StringComparison.OrdinalIgnoreCase))
+				if (item.Key.EventId == eventId)
 				{
 					var newPerson = new Person();
 					newPerson.InputPerson();
@@ -171,28 +176,6 @@ namespace EventManager
 						Console.Clear();
 						PrintEventDetails(EventAndAttendants, eventId);
 						PrintEventAttendants(EventAndAttendants, eventId);
-
-						//foreach (var item in EventAndAttendants)
-						//{
-						//	if (item.Key.EventId == eventId)
-						//	{
-
-						//		Console.Write("\n{0, -40} {1, -16} {2, -32} {3, -32} {4, -32} {5, -8}", "Event", "Tip eventa", "Vrjijeme početka", "Vrijeme završetka", "Vrijeme trajanja (u satima)", "Broj sudionika");
-						//		item.Key.PrintDetails();
-						//		Console.Write("{0, -32} {1, 8}", item.Key.EndTime - item.Key.StartTime, item.Value.Count);
-
-						//		Console.WriteLine("\n\nLista osoba koji idu na event:");
-						//		var i = 0;
-						//		foreach (var person in item.Value)
-						//		{
-						//			Console.Write("{0, -8}", i);
-						//			person.PrintDetails();
-						//			i++;
-						//		}
-						//	}
-
-						//}
-
 						break;
 					case 0:
 						return;
@@ -207,13 +190,21 @@ namespace EventManager
 			}
 		}
 
+		static void PrintEvents(Dictionary<Event, List<Person>> EventAndAttendants)
+		{
+			foreach (var item in EventAndAttendants)
+				Console.WriteLine("{0, 8} {1, -32}", item.Key.EventId, item.Key.Name);
+
+			return;
+		}
+
 		static void PrintEventDetails(Dictionary<Event, List<Person>> EventAndAttendants, int eventId)
 		{
 			foreach (var item in EventAndAttendants)
 			{
 				if (item.Key.EventId == eventId)
 				{
-					Console.WriteLine("{0, -32} {1, -16} {2, -32} {3, -32} {4, -32} {5, -8}", "Event", "Tip eventa", "Vrjijeme početka", "Vrijeme završetka", "Vrijeme trajanja (u satima)", "Broj sudionika");
+					Console.WriteLine("{0, -32} {1, -16} {2, -32} {3, -32} {4, -32} {5, -8}", "Event", "Tip eventa", "Vrjijeme početka", "Vrijeme završetka", "Vrijeme trajanja", "Broj sudionika");
 					Console.WriteLine("{0, -32} {1, -16} {2, -32} {3, -32} {4, -32} {5, -8}", item.Key.Name, item.Key.Type, item.Key.StartTime, item.Key.EndTime, item.Key.EndTime - item.Key.StartTime, item.Value.Count);
 					return;
 				}
@@ -235,8 +226,6 @@ namespace EventManager
 					foreach (var person in item.Value)
 					{
 						Console.WriteLine("{0, -12} {1, -32} {2, -32} {3, -16}", i, person.FirstName, person.LastName, person.PhoneNumber);
-						//Console.Write("{0, -8}", i);
-						//person.PrintDetails();
 						i++;
 					}
 					return;
@@ -263,13 +252,8 @@ namespace EventManager
 			return exists;
 		}
 
-		static void PrintEvents(Dictionary<Event, List<Person>> EventAndAttendants)
-		{
-			foreach (var item in EventAndAttendants)
-				Console.WriteLine("{0, 8} {1, -32}", item.Key.EventId, item.Key.Name);
 
-			return;
-		}
+
 
 		public static bool ConfirmAction()
 		{
@@ -282,12 +266,20 @@ namespace EventManager
 
 		public static string InputString(string message)
 		{
-			if (!string.IsNullOrEmpty(message))
-				Console.Write("\n" + message);
+			string input;
+			while (true)
+			{
+				if (!string.IsNullOrEmpty(message))
+					Console.Write(message);
 
-			var input = Console.ReadLine();
-			input = input.Trim();
+				input = Console.ReadLine();
+				input = input.Trim();
 
+				if (!string.IsNullOrEmpty(input))
+					break;
+				else
+					Console.WriteLine("Nije dozvoljeno unijeti prazan string!");
+			}
 
 			return input;
 		}

@@ -107,7 +107,7 @@ namespace EventManager
 
 				if (DateTime.TryParse(Console.ReadLine(), out userDateTime))
 				{
-					if (EndTime < userDateTime) {
+					if (EndTime > userDateTime) {
 						Console.WriteLine("Vrijeme kraja ne može biti prije vremena početka!");
 						continue;
 					}
@@ -125,12 +125,6 @@ namespace EventManager
 
 			EndTime = userDateTime;
 		}
-
-		public void PrintDetails()
-		{
-			Console.Write("\n{0, -40} {1, -16} {2, -32} {3, -32}",Name, Type, StartTime, EndTime);
-		}
-
 
 
 	}

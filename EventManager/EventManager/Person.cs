@@ -34,7 +34,7 @@ namespace EventManager
 
 			Console.Write("Unesite OIB: ");
 			var id = Console.ReadLine();
-			lastName = id.Trim();
+			PersonalIdentificationNumber = id.Trim();
 
 			Console.Write("Unesite broj mobitela: ");
 			var phoneNumber = Console.ReadLine();
@@ -49,10 +49,6 @@ namespace EventManager
 			return;
 		}
 
-		public void PrintDetails()
-		{
-			Console.WriteLine("{0, -32} {1, -32} {2, -16}", FirstName, LastName, PhoneNumber);
-		}
 
 	}
 }
