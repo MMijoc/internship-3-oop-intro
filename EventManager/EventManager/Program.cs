@@ -13,21 +13,8 @@ namespace EventManager
 	{
 		static void Main(string[] args)
 		{
-			PrintMainMenu();
-			Console.ReadLine();
-			Console.Clear();
-			PrintSubmenu();
-
-			
 
 
-
-		}
-
-
-		static void SelectMenu()
-		{
-			var EventAndAttendatns = new Dictionary<Event, List<Person>>();
 
 		}
 
@@ -54,13 +41,6 @@ namespace EventManager
 
 			return;
 		}
-
-
-		static int AddEvent(Dictionary<Event, List<Person>> EventAndAttendatns)
-		{
-			return (int)ReturnStatus.Success;
-		}
-
 
 
 
